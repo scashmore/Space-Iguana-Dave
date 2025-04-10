@@ -10,6 +10,8 @@ class Player {
 
         void showStatus() const;
         void takeDamage (int amount);
+        void addSkill(const std::string& skill);
+        void showSkills() const;
         
         Weapon getWeapon() const;
 

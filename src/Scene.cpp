@@ -21,3 +21,14 @@ void Scene::makeChoice(int choiceIndex) {
 void Scene::addOutcome(Scene* outcome) {
     outcomes.push_back(outcome);
 }
+
+int Scene::getNumChoices() const {
+    return choices.size();
+}
+
+Scene* Scene::getOutcome(int index) const {
+    if (index >= 0 && index < outcomes.size()) {
+        return outcomes[index];
+    }
+    return nullptr;
+}

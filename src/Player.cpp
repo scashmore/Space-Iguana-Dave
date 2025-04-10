@@ -1,5 +1,8 @@
 #include "Player.h"
 #include <iostream>
+#include <vector>
+
+std::vector<std::string> skills;
 
 Player::Player(const std::string& name)
     : name(name), health(100), energy(100), coolness(1000),
@@ -11,6 +14,18 @@ void Player::showStatus() const {
     std::cout << " - Energy: " << energy << "\n";
     std::cout << " - Coolness: " << coolness << "\n";
     std::cout << " - Weapon: " << weapon.getName() << " (Damage: " << weapon.getDamage() << ")\n";
+}
+
+void Player::addSkill(const std::string& skill) {
+    skills.push_back(skill);
+}
+
+void Player::showSkills() const {
+    std::cout << "Skills: ";
+    for (const auto& skill : skills) {
+        std::cout << skill << ", ";
+    }
+    std::cout << "\n";
 }
 
 void Player::takeDamage(int amount) {

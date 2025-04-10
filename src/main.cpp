@@ -2,8 +2,12 @@
 #include <string>
 #include "Player.h"
 #include "Enemy.h"
+#include "Scene.h"
+#include "Story.h"
 #include <cstdlib>
 #include <ctime> 
+#include <limits>
+
 
 void showIntro() {
     std::cout << "🦎 Welcome to Space Iguana Dave! 🪐\n";
@@ -45,6 +49,40 @@ void fight(Player& player) {
     }
 }
 
+void playStory(Player& player) {
+    std::vector<Scene*> story = createStory();
+    Scene* current = story[0];
+
+    while (current) {
+        current->showScene();
+
+        std::cout << "\nChoose an option (1-" << current->getNumChoices() << ", or 0 to exit story): ";
+        int choice;
+        std::cin >> choice;
+
+        if (std::cin.fail()) {
+            std::cin.clear(); // clear error flag
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // discard input
+            std::cout << "🚫 Invalid input. Please enter a number.\n";
+            continue;
+        }
+
+        if (choice == 0) {
+            std::cout << "📖 Dave drifts into the void of storylessness...\n";
+            break;
+        }
+
+        Scene* next = current->getOutcome(choice - 1);
+        if (next) {
+            current = next;
+        } else {
+            std::cout << "🚫 Invalid choice! Try again.\n";
+        }
+    }
+}
+
+
+
 int main() {
     showIntro();
 
@@ -61,6 +99,8 @@ int main() {
             dave.showStatus();
         } else if (command == "fight") {
             fight(dave);
+        }else if (command == "play") {
+            playStory(dave);
         } else if (command == "quit") {
             std::cout << "Goodbye, brave iguana.\n";
             break;

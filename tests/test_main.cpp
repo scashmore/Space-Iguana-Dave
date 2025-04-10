@@ -29,9 +29,29 @@ void testEnemyTakesDamage() {
     std::cout << "✅ Enemy damage test passed.\n";
 }
 
+void testSceneNavigation() {
+    auto story = createStory();
+
+    // Test basic scene navigation
+    story[0]->makeChoice(0); // "Fight a Space Seagull"
+
+    std::cout << "✅ Scene navigation test passed.\n";
+}
+
+void testPlayerSkills() {
+    Player dave("Dave");
+    dave.addSkill("Super Chill");
+    dave.addSkill("Laser Eyes");
+    dave.showSkills();
+
+    std::cout << "✅ Player skill test passed.\n";
+}
+
 int main() {
     testPlayerDefaults();
     testWeaponStats();
     testEnemyTakesDamage();
+    testSceneNavigation();
+    testPlayerSkills();
     return 0;
 }
