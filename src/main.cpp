@@ -1,6 +1,9 @@
 #include <iostream>
 #include <string>
 #include "Player.h"
+#include "Enemy.h"
+#include <cstdlib>
+#include <ctime> 
 
 void showIntro() {
     std::cout << "🦎 Welcome to Space Iguana Dave! 🪐\n";
@@ -13,6 +16,33 @@ void showHelp() {
     std::cout << " - help: Show this help message\n";
     std::cout << " - status: Show Dave's current status\n";
     std::cout << " - quit: Exit the game\n";
+}
+
+void fight(Player& player) {
+    std::srand(std::time(nullptr));
+    Enemy enemy("Void Pigeon", 50, 10);
+
+    std::cout << "\n👾 A wild " << enemy.getName() << " appears!\n";
+
+    while (enemy.getHealth() > 0 && player.getHealth() > 0) {
+        std::cout << "You blast the " << enemy.getName() << " for "
+                  << player.getWeapon().getDamage() << " damage!\n";
+        enemy.takeDamage(player.getWeapon().getDamage());
+
+        if (enemy.getHealth() <= 0) {
+            std::cout << "💥 You defeated the " << enemy.getName() << "!\n";
+            break;
+        }
+
+        std::cout << "The " << enemy.getName() << " hits you for "
+                  << enemy.getDamage() << " damage!\n";
+        player.takeDamage(enemy.getDamage());
+
+        if (player.getHealth() <= 0) {
+            std::cout << "☠️ You were defeated by the " << enemy.getName() << "...\n";
+            break;
+        }
+    }
 }
 
 int main() {
@@ -29,6 +59,8 @@ int main() {
             showHelp();
         } else if (command == "status") {
             dave.showStatus();
+        } else if (command == "fight") {
+            fight(dave);
         } else if (command == "quit") {
             std::cout << "Goodbye, brave iguana.\n";
             break;

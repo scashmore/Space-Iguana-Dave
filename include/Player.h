@@ -9,11 +9,14 @@ class Player {
         Player(const std::string& name);
 
         void showStatus() const;
+        void takeDamage (int amount);
+        
+        Weapon getWeapon() const;
 
-        // Getters for testing
         int getHealth() const;
         int getEnergy() const;
         int getCoolness() const;
+
     private:
         std::string name;
         int health;

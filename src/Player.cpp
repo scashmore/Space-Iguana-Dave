@@ -13,6 +13,15 @@ void Player::showStatus() const {
     std::cout << " - Weapon: " << weapon.getName() << " (Damage: " << weapon.getDamage() << ")\n";
 }
 
+void Player::takeDamage(int amount) {
+    health -= amount;
+    if (health < 0) health = 0;
+}
+
+Weapon Player::getWeapon() const {
+    return weapon;
+}
+
 int Player::getHealth() const { return health; }
 int Player::getEnergy() const { return energy; }
 int Player::getCoolness() const { return coolness; }

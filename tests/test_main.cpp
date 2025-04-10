@@ -20,8 +20,18 @@ void testWeaponStats() {
     std::cout << "✅ Weapon test passed.\n";
 }
 
+void testEnemyTakesDamage() {
+    Enemy e("Test Dummy", 50, 5);
+    e.takeDamage(20);
+    assert(e.getHealth() == 30);
+    e.takeDamage(50);
+    assert(e.getHealth() == 0);
+    std::cout << "✅ Enemy damage test passed.\n";
+}
+
 int main() {
     testPlayerDefaults();
     testWeaponStats();
+    testEnemyTakesDamage();
     return 0;
 }
