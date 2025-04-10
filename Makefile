@@ -1,8 +1,8 @@
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Iinclude
 
-SRC = src/main.cpp
-TESTS = tests/test_main.cpp
+SRC = src/main.cpp src/Player.cpp
+TESTS = tests/test_main.cpp src/Player.cpp
 
 all: game
 
