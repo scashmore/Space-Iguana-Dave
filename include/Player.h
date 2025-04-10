@@ -1,6 +1,7 @@
-#ifndef PLYER_H
+#ifndef PLAYER_H
 #define PLAYER_H
 
+#include "Weapon.h"
 #include <string>
 
 class Player {
@@ -18,6 +19,7 @@ class Player {
         int health;
         int energy;
         int coolness;
+        Weapon weapon;
 };
 
 #endif
