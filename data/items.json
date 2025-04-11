@@ -1,0 +1,36 @@
+[
+    {
+      "id": "i1",
+      "name": "Space Snack",
+      "description": "Restores 25 health.",
+      "effect": {
+        "health": 25
+      },
+      "type": "consumable"
+    },
+    {
+      "id": "i2",
+      "name": "Energy Drink",
+      "description": "Restores 20 energy.",
+      "effect": {
+        "energy": 20
+      },
+      "type": "consumable"
+    },
+    {
+      "id": "i3",
+      "name": "Coolness Boost",
+      "description": "A drink that boosts your coolness. Feel cooler than ever before.",
+      "effect": {
+        "coolness": 50
+      },
+      "type": "consumable"
+    },
+    {
+      "id": "i4",
+      "name": "Repair Kit",
+      "description": "Used to repair your ship's damaged parts.",
+      "type": "utility"
+    }
+]
+  

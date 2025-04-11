@@ -1,0 +1,21 @@
+[
+    {
+      "id": "ki1",
+      "name": "Cosmic Keycard",
+      "description": "Required to access the Reactor Core chamber.",
+      "type": "key"
+    },
+    {
+      "id": "ki2",
+      "name": "Ancient Map",
+      "description": "A map that leads to the lost galaxy. It’s said to be cursed.",
+      "type": "key"
+    },
+    {
+      "id": "ki3",
+      "name": "Time Crystal",
+      "description": "A mystical crystal that allows you to manipulate time. It can change the past or future.",
+      "type": "key"
+    }
+]
+  
