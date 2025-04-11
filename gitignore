@@ -1,0 +1,37 @@
+# CMake build files
+/build/
+/CMakeFiles/
+/CMakeCache.txt
+/Makefile
+/*.cmake
+/install_manifest.txt
+
+# Executables and objects
+*.exe
+*.out
+*.o
+*.obj
+*.a
+*.lib
+*.dll
+*.so
+*.dylib
+
+# vcpkg build artifacts (unless you're using manifest mode)
+vcpkg_installed/
+packages/
+*.log
+
+# IDE/project files
+*.user
+*.suo
+*.vcxproj*
+*.DS_Store
+
+# Backup / temp files
+*~
+*.swp
+*.tmp
+
+# JSON autosaves
+*.json.bak
