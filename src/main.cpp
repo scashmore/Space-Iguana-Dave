@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "Story.h"
+#include "helpers/InputHelper.h"
 #include <iostream>
 
 void showTitleScreen() {
@@ -30,16 +31,16 @@ int main() {
         showTitleScreen();
 
         std::cout << "\n➡️ Select an option: ";
-        std::string input;
-        std::getline(std::cin, input);
+        // Get the user input without pressing enter
+        char input = getCharFromUser();
 
-        if (input == "1") {
+        if (input == '1') {
             Story story;
             Game game(&story);
             game.play();
-        } else if (input == "2") {
+        } else if (input == '2') {
             std::cout << "\n🛠️  Fight system is still under construction!\n\n";
-        } else if (input == "3" || input == "quit" || input == "exit") {
+        } else if (input == '3' || input == 'q' || input == 'Q') {
             std::cout << "👋 Thanks for playing Space Iguana Dave!\n";
             break;
         } else {
