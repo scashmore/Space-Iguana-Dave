@@ -11,6 +11,15 @@ void Scene::showScene() const {
     }
 }
 
+const std::string& Scene::getDescription() const {
+    return description;
+}
+
+const std::vector<std::string>& Scene::getChoices() const {
+    return choices;
+}
+
+
 void Scene::makeChoice(int choiceIndex) {
     // Implement how each choice leads to an outcome (new scene)
     if (choiceIndex >= 0 && choiceIndex < outcomes.size()) {

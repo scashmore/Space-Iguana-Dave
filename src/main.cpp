@@ -1,108 +1,49 @@
-#include <iostream>
-#include <string>
-#include "Player.h"
-#include "Enemy.h"
-#include "Scene.h"
+#include "Game.h"
 #include "Story.h"
-#include <cstdlib>
-#include <ctime> 
-#include <limits>
+#include <iostream>
 
-
-void showIntro() {
-    std::cout << "🦎 Welcome to Space Iguana Dave! 🪐\n";
-    std::cout << "You are Dave, a cosmic iguana with a destiny.\n";
-    std::cout << "Type 'help' to see available commands.\n\n";
-}
-
-void showHelp() {
-    std::cout << "Available commands:\n";
-    std::cout << " - help: Show this help message\n";
-    std::cout << " - status: Show Dave's current status\n";
-    std::cout << " - quit: Exit the game\n";
-}
-
-void fight(Player& player) {
-    std::srand(std::time(nullptr));
-    Enemy enemy("Void Pigeon", 50, 10);
-
-    std::cout << "\n👾 A wild " << enemy.getName() << " appears!\n";
-
-    while (enemy.getHealth() > 0 && player.getHealth() > 0) {
-        std::cout << "You blast the " << enemy.getName() << " for "
-                  << player.getWeapon().getDamage() << " damage!\n";
-        enemy.takeDamage(player.getWeapon().getDamage());
-
-        if (enemy.getHealth() <= 0) {
-            std::cout << "💥 You defeated the " << enemy.getName() << "!\n";
-            break;
-        }
-
-        std::cout << "The " << enemy.getName() << " hits you for "
-                  << enemy.getDamage() << " damage!\n";
-        player.takeDamage(enemy.getDamage());
-
-        if (player.getHealth() <= 0) {
-            std::cout << "☠️ You were defeated by the " << enemy.getName() << "...\n";
-            break;
-        }
-    }
-}
-
-void playStory(Player& player) {
-    Story story;
-    story.reset();
-
-    while (true) {
-        Scene* current = story.getCurrentScene();
-        story.displayCurrentScene();
-
-        std::cout << "\nChoose an option (1-" << current->getNumChoices() << ", or 0 to exit story): ";
-        int choice;
-        std::cin >> choice;
-
-        if (std::cin.fail()) {
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::cout << "🚫 Invalid input. Please enter a number.\n";
-            continue;
-        }
-
-        if (choice == 0) {
-            std::cout << "📖 Dave returns to his space hammock...\n";
-            break;
-        }
-
-        Scene* next = story.getNextScene(choice - 1);
-        if (!next) {
-            std::cout << "🚫 That option doesn't lead anywhere yet. Try again.\n";
-        }
-    }
+void showTitleScreen() {
+    std::cout << R"(
+   _.-~~-.__
+ _-~ _-=-_   ''-,,
+('___ ~~~   0     ~''-_,,,,,,,,,,,,,,,,
+ \~~~~~~--'                            '''''''--,,,,
+  ~`-,_      ()                                     '''',,,
+       '-,_      \                           /             '', _~/|
+  ,.       \||/~--\ \_________              / /______...---.  ;  /
+  \ ~~~~~~~~~~~~~  \ )~~------~`~~~~~~~~~~~( /----         /,'/ /
+   |   -           / /                      \ \           /;/  /
+  / -             / /                        / \         /;/  / -.
+ /         __.---/  \__                     /, /|       |:|    \  \
+/_.~`-----~      \.  \ ~~~~~~~~~~~~~---~`---\\\\ \---__ \:\    /  /
+                  `\\\`                     ' \\' '    --\'\, /  /
+                                               '\,        ~-_'''"
+                    🦎  Space Iguana Dave  🦎
+    )" << "\n";
+    std::cout << "1. Play the Story\n";
+    std::cout << "2. Test Fight (Coming Soon)\n";
+    std::cout << "3. Quit\n";
 }
 
 int main() {
-    showIntro();
-
-    Player dave("Dave");
-
-    std::string command;
     while (true) {
-        std::cout << "\n> ";
-        std::getline(std::cin, command);
+        showTitleScreen();
 
-        if (command == "help") {
-            showHelp();
-        } else if (command == "status") {
-            dave.showStatus();
-        } else if (command == "fight") {
-            fight(dave);
-        }else if (command == "play") {
-            playStory(dave);
-        } else if (command == "quit") {
-            std::cout << "Goodbye, brave iguana.\n";
+        std::cout << "\n➡️ Select an option: ";
+        std::string input;
+        std::getline(std::cin, input);
+
+        if (input == "1") {
+            Story story;
+            Game game(&story);
+            game.play();
+        } else if (input == "2") {
+            std::cout << "\n🛠️  Fight system is still under construction!\n\n";
+        } else if (input == "3" || input == "quit" || input == "exit") {
+            std::cout << "👋 Thanks for playing Space Iguana Dave!\n";
             break;
         } else {
-            std::cout << "Unknown command. Type 'help' to see options.\n";
+            std::cout << "❌ Invalid input. Please try again.\n\n";
         }
     }
 

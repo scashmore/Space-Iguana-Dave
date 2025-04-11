@@ -7,6 +7,8 @@
 class Scene {
 public:
     Scene(const std::string& description, const std::vector<std::string>& choices);
+    const std::string& getDescription() const;
+    const std::vector<std::string>& getChoices() const;
     void showScene() const;
     void makeChoice(int choiceIndex);
     void addOutcome(Scene* outcome); // Adds a connected scene
