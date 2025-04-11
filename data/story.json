@@ -1,0 +1,37 @@
+{
+    "start": {
+      "description": "Dave finds himself floating in space, wondering what to do next.",
+      "choices": [
+        { "text": "Fight a Space Seagull", "next": "fight" },
+        { "text": "Search for Chill Crystals", "next": "search" },
+        { "text": "Take a nap", "next": "nap" }
+      ]
+    },
+    "fight": {
+      "description": "Dave faces a giant Space Seagull! It squawks: 'You will never stop my seagull army!'",
+      "choices": [
+        { "text": "Blast it with the Banana Blaster", "next": "end1" },
+        { "text": "Run away", "next": "end2" }
+      ]
+    },
+    "search": {
+      "description": "Dave finds space dust. A message pops up: 'No chill crystals here!'",
+      "choices": [
+        { "text": "Give up", "next": "end3" },
+        { "text": "Try a different galaxy", "next": "end4" }
+      ]
+    },
+    "nap": {
+      "description": "Dave dreams of iguana domination.",
+      "choices": [
+        { "text": "Wake up", "next": "end5" },
+        { "text": "Keep dreaming", "next": "end6" }
+      ]
+    },
+    "end1": { "description": "The Space Seagull explodes into cosmic feathers.", "choices": [] },
+    "end2": { "description": "The seagull mocks you, but you live. Congrats?", "choices": [] },
+    "end3": { "description": "You give up. That's okay. Space is hard.", "choices": [] },
+    "end4": { "description": "You find the elusive Chill Crystals! Rad.", "choices": [] },
+    "end5": { "description": "Dave wakes up... stickier than before.", "choices": [] },
+    "end6": { "description": "Dave becomes Dream Emperor Dave.", "choices": [] }
+  }  

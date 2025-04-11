@@ -1,40 +1,81 @@
 #include "Story.h"
-#include "Scene.h"
+#include "json.hpp"
+#include <fstream>
 #include <iostream>
 
-std::vector<Scene*> createStory() {
-    // Create the initial scene
-    Scene* start = new Scene("Dave finds himself floating in space, wondering what to do next.", 
-                              {"Fight a Space Seagull", "Search for Chill Crystals", "Take a nap"});
+using json = nlohmann::json;
 
-    // Create outcomes for choices
-    Scene* fight = new Scene("Dave faces a giant Space Seagull! The seagull squawks, 'You will never stop my seagull army!'",
-                              {"Blast it with the Banana Blaster", "Run away"});
-    Scene* search = new Scene("Dave floats aimlessly and finds nothing but space dust. Suddenly, a message pops up: 'No chill crystals here!'", 
-                               {"Give up", "Try a different galaxy"});
-    Scene* nap = new Scene("Dave falls asleep and dreams of a world where iguanas rule the universe. The end.", 
-                           {"Wake up", "Keep dreaming"});
+Story::Story() {
+    createStory();
+}
 
-    // Add outcomes to the start scene
-    start->addOutcome(fight);
-    start->addOutcome(search);
-    start->addOutcome(nap);
+void Story::createStory() {
+    std::ifstream file("data/story.json");
+    if (!file.is_open()) {
+        std::cerr << "❌ Failed to open story.json\n";
+        return;
+    }
 
-    // Add placeholder outcomes to fight/search/nap
-    Scene* end1 = new Scene("The Space Seagull is no match for your fruity fury. It explodes into a burst of cosmic feathers.", {});
-    Scene* end2 = new Scene("You run away. The seagull mocks you from space. But hey, you're alive.", {});
-    fight->addOutcome(end1);
-    fight->addOutcome(end2);
+    json storyData;
+    file >> storyData;
 
-    Scene* end3 = new Scene("You give up. That's okay. Space is hard.", {});
-    Scene* end4 = new Scene("You zip to another galaxy and find the elusive Chill Crystals!", {});
-    search->addOutcome(end3);
-    search->addOutcome(end4);
+    // First pass: create scenes
+    for (auto& [id, node] : storyData.items()) {
+        std::string description = node["description"];
+        std::vector<std::string> choices;
 
-    Scene* end5 = new Scene("Dave wakes up refreshed... but slightly stickier than before.", {});
-    Scene* end6 = new Scene("Dave dreams forever. Eventually, he becomes Dream Emperor Dave.", {});
-    nap->addOutcome(end5);
-    nap->addOutcome(end6);
+        for (const auto& choice : node["choices"]) {
+            choices.push_back(choice["text"]);
+        }
 
-    return {start, fight, search, nap}; // Return a list of all scenes
+        scenes[id] = new Scene(description, choices);
+    }
+
+    // Second pass: wire outcomes
+    for (auto& [id, node] : storyData.items()) {
+        Scene* scene = scenes[id].get();
+
+        for (const auto& choice : node["choices"]) {
+            std::string nextId = choice["next"];
+            if (scenes.count(nextId)) {
+                scene->addOutcome(scenes[nextId].get());
+            } else {
+                std::cerr << "⚠️  Invalid next scene ID: " << nextId << " in scene " << id << "\n";
+            }
+        }
+    }
+
+    currentSceneId = "start";
+}
+
+Scene* Story::getCurrentScene() const {
+    return scenes.at(currentSceneId);
+}
+
+Scene* Story::getNextScene(int choiceIndex) {
+    Scene* current = getCurrentScene();
+    Scene* next = current->getOutcome(choiceIndex);
+    if (next) {
+        for (auto& [id, scene] : scenes) {
+            if (scene == next) {
+                currentSceneId = id;
+                return next;
+            }
+        }
+    }
+    return nullptr;
+}
+
+void Story::goToScene(const std::string& id) {
+    if (scenes.count(id)) {
+        currentSceneId = id;
+    }
+}
+
+void Story::reset() {
+    currentSceneId = "start";
+}
+
+void Story::displayCurrentScene() const {
+    scenes.at(currentSceneId)->showScene();
 }

@@ -50,38 +50,35 @@ void fight(Player& player) {
 }
 
 void playStory(Player& player) {
-    std::vector<Scene*> story = createStory();
-    Scene* current = story[0];
+    Story story;
+    story.reset();
 
-    while (current) {
-        current->showScene();
+    while (true) {
+        Scene* current = story.getCurrentScene();
+        story.displayCurrentScene();
 
         std::cout << "\nChoose an option (1-" << current->getNumChoices() << ", or 0 to exit story): ";
         int choice;
         std::cin >> choice;
 
         if (std::cin.fail()) {
-            std::cin.clear(); // clear error flag
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // discard input
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::cout << "🚫 Invalid input. Please enter a number.\n";
             continue;
         }
 
         if (choice == 0) {
-            std::cout << "📖 Dave drifts into the void of storylessness...\n";
+            std::cout << "📖 Dave returns to his space hammock...\n";
             break;
         }
 
-        Scene* next = current->getOutcome(choice - 1);
-        if (next) {
-            current = next;
-        } else {
-            std::cout << "🚫 Invalid choice! Try again.\n";
+        Scene* next = story.getNextScene(choice - 1);
+        if (!next) {
+            std::cout << "🚫 That option doesn't lead anywhere yet. Try again.\n";
         }
     }
 }
-
-
 
 int main() {
     showIntro();
