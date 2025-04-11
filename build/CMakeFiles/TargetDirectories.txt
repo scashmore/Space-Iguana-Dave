@@ -1,3 +1,0 @@
-/Users/ashmore/Documents/space-iguana-dave/build/CMakeFiles/space_iguana.dir
-/Users/ashmore/Documents/space-iguana-dave/build/CMakeFiles/edit_cache.dir
-/Users/ashmore/Documents/space-iguana-dave/build/CMakeFiles/rebuild_cache.dir

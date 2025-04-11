@@ -1,1 +1,0 @@
-/usr/bin/c++  -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/space_iguana.dir/src/Enemy.cpp.o CMakeFiles/space_iguana.dir/src/Player.cpp.o CMakeFiles/space_iguana.dir/src/Scene.cpp.o CMakeFiles/space_iguana.dir/src/Story.cpp.o CMakeFiles/space_iguana.dir/src/Weapon.cpp.o CMakeFiles/space_iguana.dir/src/main.cpp.o -o space_iguana
