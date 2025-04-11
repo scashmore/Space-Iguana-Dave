@@ -1,5 +1,5 @@
 #include "Story.h"
-#include "json.hpp"
+#include <nlohmann/json.hpp>
 #include <fstream>
 #include <iostream>
 
@@ -33,12 +33,12 @@ void Story::createStory() {
 
     // Second pass: wire outcomes
     for (auto& [id, node] : storyData.items()) {
-        Scene* scene = scenes[id].get();
+        Scene* scene = scenes[id];
 
         for (const auto& choice : node["choices"]) {
             std::string nextId = choice["next"];
             if (scenes.count(nextId)) {
-                scene->addOutcome(scenes[nextId].get());
+                scene->addOutcome(scenes[nextId]);
             } else {
                 std::cerr << "⚠️  Invalid next scene ID: " << nextId << " in scene " << id << "\n";
             }
