@@ -12,7 +12,10 @@ endif()
 
 # Add include and source directories
 include_directories(include)
-file(GLOB SOURCES "src/*.cpp")
+file(GLOB SOURCES
+        "src/*.cpp" 
+        "src/helpers/*.cpp"
+    )
 
 # Executable
 add_executable(space_iguana ${SOURCES})

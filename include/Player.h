@@ -1,30 +1,37 @@
-#ifndef PLAYER_H
-#define PLAYER_H
+#pragma once
 
 #include "Weapon.h"
+#include "Item.h"
 #include <string>
+#include <vector>
 
 class Player {
-    public:
-        Player(const std::string& name);
+public:
+    Player(const std::string& name);
 
-        void showStatus() const;
-        void takeDamage (int amount);
-        void addSkill(const std::string& skill);
-        void showSkills() const;
-        
-        Weapon getWeapon() const;
+    void showStatus() const;
+    void showSkills() const;
+    void showInventory() const;
 
-        int getHealth() const;
-        int getEnergy() const;
-        int getCoolness() const;
+    void addSkill(const std::string& skill);
+    void takeDamage(int amount);
 
-    private:
-        std::string name;
-        int health;
-        int energy;
-        int coolness;
-        Weapon weapon;
+    void addItem(const Item& item);
+    void useItem(int index);
+
+    Weapon getWeapon() const;
+
+    int getHealth() const;
+    int getEnergy() const;
+    int getCoolness() const;
+
+private:
+    std::string name;
+    int health;
+    int energy;
+    int coolness;
+    Weapon weapon;
+
+    std::vector<std::string> skills;
+    std::vector<Item> inventory;
 };
-
-#endif
