@@ -68,7 +68,7 @@ A silly, terminal-based space adventure RPG about Dave, a smooth-talking space i
 
 ## 🎥 Gameplay Preview
 
-![Space Iguana Dave Gameplay](readme_assets/Screen%20Recording%202025-04-15%20at%2012.44.17 PM.mov)
+![Space Iguana Dave Gameplay](readme_assets/gameplay_example.mp4)
 
 ---
 
