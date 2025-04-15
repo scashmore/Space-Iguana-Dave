@@ -32,17 +32,20 @@ A silly, terminal-based space adventure RPG about Dave, a smooth-talking space i
    ./vcpkg install nlohmann-json
    ```
 
-3. **Build the game**:
-   ```bash
-   mkdir build && cd build
-   cmake ..
-   make
-   ```
+3. **🛠️ Quick Build Instructions**:
 
-4. **Run the game**:
-   ```bash
-   ./space_iguana
-   ```
+    ```bash
+    # Clone the repo and enter the folder
+    git clone https://github.com/yourusername/Space-Iguana-Dave.git
+    cd Space-Iguana-Dave
+
+    # Build the project (replace with your path to vcpkg if different)
+    cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake
+    cmake --build build
+
+    # Run the game
+    ./build/space_iguana
+
 
 ---
 
