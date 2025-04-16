@@ -1,0 +1,23 @@
+{
+    "end1": {
+      "description": "The seagull mocks you, but you live. Congrats?",
+      "choices": []
+    },
+    "end2": {
+      "description": "You give up. That's okay. Space is hard.",
+      "choices": []
+    },
+    "end3": {
+      "description": "You find the elusive Chill Crystals! Rad.",
+      "choices": []
+    },
+    "end4": {
+      "description": "Dave wakes up... stickier than before.",
+      "choices": []
+    },
+    "end5": {
+      "description": "Dave becomes Dream Emperor Dave.",
+      "choices": []
+    }
+}
+  

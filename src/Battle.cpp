@@ -34,30 +34,58 @@ void Battle::displayBattleStatus() {
 
 void Battle::playerTurn() {
     std::cout << "\nYour turn! Choose an action:\n";
-    std::cout << "1. Attack\n";
-    std::cout << "2. Use Item (coming soon)\n";
-    std::cout << "3. Defend (coming soon)\n";
-    std::cout << "4. Run Away\n";
-    std::cout << "➡️ ";
+    
+    // Example dynamic options
+    std::vector<std::string> choices;
+    
+    // Add Attack options based on player's available weapons
+    if (player.hasWeapon("Laser Gun")) {
+        choices.push_back("Attack with Laser Gun");
+    }
+    
+    // Add Defense options based on player's armor or abilities
+    if (player.hasAbility("Shield")) {
+        choices.push_back("Use Shield");
+    }
+    
+    // Add Item usage options
+    if (player.hasItem("Health Potion")) {
+        choices.push_back("Use Health Potion");
+    }
+    
+    // Add Escape option based on agility
+    if (player.getAgility() > 10) {
+        choices.push_back("Run Away");
+    }
 
-    std::string input;
-    std::getline(std::cin, input);
-
-    if (input == "1") {
-        int damage = player.getWeapon().getDamage();  // we'll later improve this with battle moves
-        enemy.takeDamage(damage);
-        std::cout << "💥 You attacked " << enemy.getName() << " for " << damage << " damage!\n";
-    } else if (input == "4") {
-        if (attemptEscape()) {
-            std::cout << "🏃 You escaped successfully!\n";
-            exit(0); // For now, just end the game if you escape
-        } else {
-            std::cout << "🚫 Escape failed!\n";
-        }
-    } else {
-        std::cout << "❌ Not implemented yet or invalid choice!\n";
+    // Show the dynamic choices
+    for (size_t i = 0; i < choices.size(); ++i) {
+        std::cout << i + 1 << ". " << choices[i] << "\n";
+    }
+    
+    std::cout << "➡️ Choose an option: ";
+    int choiceIndex;
+    std::cin >> choiceIndex;
+    
+    // Handle the player's choice (you could expand this with more options)
+    switch (choiceIndex) {
+        case 1: // Attack with Laser Gun
+            // Implement attack logic
+            break;
+        case 2: // Use Shield
+            // Implement shield logic
+            break;
+        case 3: // Use Health Potion
+            // Implement health potion logic
+            break;
+        case 4: // Run Away
+            // Implement escape logic
+            break;
+        default:
+            std::cout << "❌ Invalid choice!\n";
     }
 }
+
 
 void Battle::enemyTurn() {
     int damage = enemy.getDamage(); // You’ll add logic for variety later

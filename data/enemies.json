@@ -1,0 +1,13 @@
+{
+    "space_seagull": {
+      "name": "Space Seagull",
+      "health": 30,
+      "damage": 8
+    },
+    "palmetto_tree": {
+      "name": "Floating Palmetto Tree",
+      "health": 100,
+      "damage": 20
+    }
+}
+  

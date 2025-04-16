@@ -1,0 +1,16 @@
+{
+    "youDied": {
+      "description": "💀 You have perished in your quest. But hey, space is tough.",
+      "choices": [
+        { "text": "Return to main menu", "next": "mainMenu" }
+      ]
+    },
+    "encounterTemplate": {
+      "description": "🌀 You encountered something strange and shimmering.",
+      "choices": [
+        { "text": "Approach", "next": "investigate" },
+        { "text": "Avoid it", "next": "moveOn" }
+      ]
+    }
+}
+  

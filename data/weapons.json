@@ -1,23 +1,24 @@
-[
-    {
+{
+    "w1": {
       "id": "w1",
       "name": "Banana Blaster",
       "description": "A highly potassium-charged blaster that shoots banana peels.",
       "damage": 15,
       "type": "blaster"
     },
-    {
+    "w2": {
       "id": "w2",
       "name": "Laser Sword",
       "description": "A sword made from concentrated light energy. It slices through anything with ease.",
       "damage": 25,
       "type": "melee"
     },
-    {
+    "w3": {
       "id": "w3",
       "name": "Plasma Rifle",
       "description": "A futuristic rifle that fires concentrated plasma blasts. Dangerous and accurate.",
       "damage": 40,
       "type": "ranged"
     }
-]  
+  }
+  

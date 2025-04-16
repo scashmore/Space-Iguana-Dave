@@ -20,7 +20,14 @@ public:
     void useItem(int index);
 
     Weapon getWeapon() const;
+    
+    // New methods for the battle system
+    bool hasWeapon(const std::string& weaponName) const;
+    bool hasAbility(const std::string& abilityName) const;
+    bool hasItem(const std::string& itemName) const;
+    int getAgility() const;
 
+    // Getters for player stats
     int getHealth() const;
     int getEnergy() const;
     int getCoolness() const;
@@ -32,6 +39,7 @@ private:
     int coolness;
     Weapon weapon;
 
-    std::vector<std::string> skills;
-    std::vector<Item> inventory;
+    std::vector<std::string> skills; // List of skills (like "Shield")
+    std::vector<Item> inventory;     // Inventory items
+    int agility;                     // Player's agility stat (you can modify this value)
 };

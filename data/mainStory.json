@@ -1,0 +1,15 @@
+{
+  "start": {
+      "description": "Dave finds himself floating in space, wondering what to do next.",
+      "choices": [
+          { "text": "Fight a Space Seagull", "next": "fight" }
+      ]
+  },
+  "fight": {
+      "description": "Dave faces a giant Space Seagull! It squawks: 'You will never stop my seagull army!'",
+      "choices": [
+          { "text": "Run away", "next": "end1" },
+          { "text": "Fight with it", "next": "seagullBattle" }
+      ]
+  }
+}

@@ -1,9 +1,11 @@
 #include "Player.h"
 #include <iostream>
+#include <algorithm> // For std::find
 
 Player::Player(const std::string& name)
     : name(name), health(100), energy(100), coolness(1000),
-      weapon("Banana Blaster", 15) {}
+      weapon("w1", "Banana Blaster", "A highly potassium-charged blaster that shoots banana peels.", 15, "blaster"), 
+      agility(10) {}  // Default agility
 
 void Player::showStatus() const {
     std::cout << name << "'s Status:\n";
@@ -87,4 +89,31 @@ void Player::useItem(int index) {
     if (item.getType() != ItemType::Key && item.getType() != ItemType::Misc) {
         inventory.erase(inventory.begin() + index);
     }
+}
+
+// New methods
+
+// Check if the player has a specific weapon
+bool Player::hasWeapon(const std::string& weaponName) const {
+    return weapon.getName() == weaponName;
+}
+
+// Check if the player has a specific ability (skill)
+bool Player::hasAbility(const std::string& abilityName) const {
+    return std::find(skills.begin(), skills.end(), abilityName) != skills.end();
+}
+
+// Check if the player has a specific item
+bool Player::hasItem(const std::string& itemName) const {
+    for (const Item& item : inventory) {
+        if (item.getName() == itemName) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Get the player's agility
+int Player::getAgility() const {
+    return agility;
 }

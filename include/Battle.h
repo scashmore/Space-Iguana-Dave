@@ -7,7 +7,7 @@
 class Battle {
 public:
     Battle(Player& player, Enemy& enemy);
-    void start();
+    void start();  // This method runs the entire battle (instead of isOver and takeTurn)
 
 private:
     Player& player;

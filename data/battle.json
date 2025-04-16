@@ -1,0 +1,8 @@
+{
+  "seagullBattle": {
+      "id": "seagullBattle",
+      "type": "battle",
+      "enemy": "space_seagull",
+      "next": "SpaceSeagullDeath"
+  }
+}
