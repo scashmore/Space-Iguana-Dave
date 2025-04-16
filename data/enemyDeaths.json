@@ -1,14 +1,14 @@
 {
-    "SpaceSeagullDeath": {
-      "deathDescription": "The Space Seagull explodes into cosmic feathers.",
-      "outcome": "The enemy has been defeated, leaving behind only cosmic remnants.",
-      "gameOver": true,
-      "next": "END"
-    },
-    "PalmettoTreeDeath": {
-      "deathDescription": "The Palmetto Tree shudders, its bubble popping, and it collapses in a heap of leaves.",
-      "outcome": "The mighty Palmetto Tree has fallen, but the battle is far from over.",
-      "gameOver": false
-    }
+  "SpaceSeagullDeath": {
+    "deathDescription": "The Space Seagull explodes into cosmic feathers.",
+    "outcome": "The enemy has been defeated, leaving behind only cosmic remnants.",
+    "gameOver": true,
+    "next": "END"
+  },
+  "PalmettoTreeDeath": {
+    "deathDescription": "The Palmetto Tree shudders, its bubble popping, and it collapses in a heap of leaves.",
+    "outcome": "The mighty Palmetto Tree has fallen, but the battle is far from over.",
+    "gameOver": true,
+    "next": "END"
+  }
 }
-  

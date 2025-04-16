@@ -38,24 +38,33 @@ void Story::createStory() {
 
     // Ensure scenes are linked properly after processing all files
     linkScenes();
+
+    // Set the starting scene ID if it exists
+    if (scenes.count("start") > 0) {
+        currentSceneId = "start";
+        std::cout << "🪐 DEBUG: Starting scene set to 'start'\n";
+    } else {
+        std::cerr << "❌ No scene with ID 'start' found.\n";
+    }
 }
 
 void Story::processJsonFile(const std::string& filename, const json& fileData) {
     // If it's an object where the values are scenes
+    // Check for scene-like structure (for shared or alt scene files)
     if (fileData.is_object()) {
-        bool looksLikeScenes = true;
+        bool isSceneMap = true;
         for (const auto& [id, node] : fileData.items()) {
-            if (!node.contains("description") || !node.contains("choices")) {
-                looksLikeScenes = false;
+            if (!node.is_object() || (!node.contains("description") && !node.contains("type"))) {
+                isSceneMap = false;
                 break;
             }
         }
-
-        if (looksLikeScenes) {
+        if (isSceneMap) {
             loadSceneFile(filename, fileData);
             return;
         }
-    }
+}
+
 
     if (filename == "enemies.json") {
         loadEnemies(fileData);
@@ -190,31 +199,54 @@ void Story::loadKeyItems(const json& keyItemData) {
 void Story::loadBattleScenes(const json& battleData) {
     // Load battle scenes from battle.json
     for (auto& battle : battleData) {
-        if (battle.contains("sceneId") && battle.contains("description") && battle.contains("enemyId")) {
-            std::string sceneId = battle["sceneId"];
-            std::string description = battle["description"];
-            std::string enemyId = battle["enemyId"];
+        if (battle.contains("id") && battle.contains("enemy") && battle.contains("next")) {
+            std::string sceneId = battle["id"];
+            std::string enemyId = battle["enemy"];
+            std::string nextScene = battle["next"];
+
             // Process battle data
-            std::cout << "Loaded battle scene: " << sceneId << " with enemy: " << enemyId << "\n";
+            std::cout << "Loaded battle scene: " << sceneId << " with enemy: " << enemyId << " next: " << nextScene << "\n";
+
+            // Add the battle scene to the 'scenes' map
+            // Create a new Scene (you'll likely want to create this scene in a more complex way)
+            Scene* battleScene = new Scene("A battle occurs with " + enemyId, {});
+            battleScene->setType("battle");
+            battleScene->setEnemyId(enemyId);
+            battleScene->setNextSceneId(nextScene);
+
+            // Store the battle scene in the map
+            scenes[sceneId] = battleScene;
         } else {
             std::cerr << "⚠️ Missing required keys in battle scene data\n";
         }
     }
 }
 
+
 void Story::loadEnemyDeaths(const json& deathData) {
-    // Load enemy death data (this could link to scenes, stats, etc.)
-    for (auto& death : deathData) {
-        if (death.contains("enemyId") && death.contains("outcome")) {
-            std::string enemyId = death["enemyId"];
-            std::string outcome = death["outcome"];
+    // Load enemy death data from enemyDeaths.json
+    for (auto& death : deathData.items()) {
+        // Extract enemy ID (which is the key name in the JSON)
+        std::string enemyId = death.key();
+        
+        // Extract other data
+        if (death.value().contains("outcome") && death.value().contains("next")) {
+            std::string outcome = death.value()["outcome"];
+            std::string nextScene = death.value()["next"];
+
+            // Optionally, you can extract the death description as well.
+            std::string deathDescription = death.value().contains("deathDescription") ? death.value()["deathDescription"] : "No description available";
+
             // Process death data
-            std::cout << "Loaded enemy death: " << enemyId << " with outcome: " << outcome << "\n";
+            std::cout << "Loaded enemy death for: " << enemyId << "\n";
+            std::cout << "Outcome: " << outcome << ", Next: " << nextScene << "\n";
+            std::cout << "Death Description: " << deathDescription << "\n";
         } else {
-            std::cerr << "⚠️ Missing required keys in enemy death data\n";
+            std::cerr << "⚠️ Missing required keys in enemy death data for " << death.key() << "\n";
         }
     }
 }
+
 
 void Story::linkScenes() {
     // Iterate over each scene
@@ -323,22 +355,95 @@ std::string Story::getCurrentSceneIdFromChoice(int index) {
 }
 
 void Story::reset() {
+    std::cout << "🔁 Resetting story to scene ID: start\n";
+    if (!scenes.count("start")) {
+        std::cerr << "❌ Scene with ID 'start' not found in loaded scenes!\n";
+    }
     currentSceneId = "start";
 }
 
-void Story::displayCurrentScene() const {
+void Story::displayCurrentScene() {
     auto it = scenes.find(currentSceneId);
+    std::cout << "🪐 DEBUG: Attempting to display scene with ID: " << currentSceneId << "\n";
+
     if (it == scenes.end()) {
         std::cerr << "❌ displayCurrentScene: Scene not found: " << currentSceneId << "\n";
         return;
     }
-    it->second->showScene();
+
+    Scene* scene = it->second;  // Assuming scene is a pointer to a Scene object
+
+    if (scene->getType() == "battle") {
+        std::cout << "⚔️ Battle begins with " << scene->getEnemyId() << "!\n";
+        startBattle(scene);  // Start the battle when the scene is a battle
+        return;  // Exit after starting the battle
+    }
+
+    // Regular scene handling...
 }
 
-Enemy Story::loadEnemyById(const std::string& id) {
+void Story::startBattle(Scene* battleScene) {
+    std::string enemyId = battleScene->getEnemyId();  // Get the enemy ID from the scene
+    Enemy* enemy = loadEnemyById(enemyId);  // Look up the enemy data
+
+    if (!enemy) {
+        std::cerr << "❌ Enemy not found: " << enemyId << "\n";
+        return;
+    }
+
+    // Create a battle and pass a callback to handle the result
+    Player player("Dave");
+    Battle battle(player, *enemy, [this](bool playerWon) {
+        handleBattleOutcome(playerWon);
+    });
+
+    battle.start();  // Start the battle
+}
+
+void Story::handleBattleOutcome(bool playerWon) {
+    if (playerWon) {
+        std::cout << "🎉 You won the battle!\n";
+        // Move to the next scene or handle victory logic
+        currentSceneId = "SpaceSeagullDeath";  // Example: Transition to victory scene
+    } else {
+        std::cout << "💀 You lost the battle...\n";
+        // Handle the loss (e.g., game over or retry)
+        currentSceneId = "END";  // Example: Go to game over screen
+    }
+
+    // After handling the outcome, transition to the next scene based on the outcome
+    transitionToNextScene(currentSceneId);
+}
+
+void Story::transitionToNextScene(const std::string& nextSceneId) {
+    /// Find the scene object in loaded JSON scene data
+    auto nextScene = scenes[nextSceneId];
+
+    // Update current scene and display it
+    currentSceneId = nextSceneId;
+    displayCurrentScene();
+}
+
+
+Enemy* Story::loadEnemyById(const std::string& id) {
     if (!enemies.count(id)) {
         throw std::runtime_error("❌ Enemy not found: " + id);
     }
-    return enemies.at(id);
+    return &enemies.at(id);  // Return a pointer to the existing Enemy object
 }
 
+int Story::getUserChoice(int minChoice, int maxChoice) {
+    int choice = 0;
+    while (true) {
+        std::cout << "➡️ Enter your choice (" << minChoice << "-" << maxChoice << "): ";
+        std::cin >> choice;
+        
+        // Check if the choice is valid
+        if (choice >= minChoice && choice <= maxChoice) {
+            return choice;
+        } else {
+            std::cout << "❌ Invalid choice. Please enter a number between " 
+                      << minChoice << " and " << maxChoice << ".\n";
+        }
+    }
+}

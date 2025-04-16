@@ -2,8 +2,9 @@
 #include <iostream>
 #include <cstdlib> // for rand()
 
-Battle::Battle(Player& player, Enemy& enemy)
-    : player(player), enemy(enemy) {}
+// Ensure the constructor matches the declaration in Battle.h
+Battle::Battle(Player& player, Enemy& enemy, std::function<void(bool)> onBattleComplete)
+    : player(player), enemy(enemy), onBattleComplete(onBattleComplete) {}
 
 void Battle::start() {
     std::cout << "⚔️ A wild " << enemy.getName() << " appears!\n";
@@ -14,14 +15,16 @@ void Battle::start() {
 
         if (enemy.getHealth() <= 0) {
             std::cout << "🎉 You defeated " << enemy.getName() << "!\n";
-            break;
+            onBattleComplete(true);  // Notify victory
+            return;
         }
 
         enemyTurn();
 
         if (player.getHealth() <= 0) {
             std::cout << "💀 You were defeated by " << enemy.getName() << ".\n";
-            break;
+            onBattleComplete(false);  // Notify defeat
+            return;
         }
     }
 }
@@ -85,7 +88,6 @@ void Battle::playerTurn() {
             std::cout << "❌ Invalid choice!\n";
     }
 }
-
 
 void Battle::enemyTurn() {
     int damage = enemy.getDamage(); // You’ll add logic for variety later

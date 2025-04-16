@@ -1,5 +1,5 @@
 {
-    "youDied": {
+    "gameOver": {
       "description": "💀 You have perished in your quest. But hey, space is tough.",
       "choices": [
         { "text": "Return to main menu", "next": "mainMenu" }
