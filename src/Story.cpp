@@ -363,23 +363,38 @@ void Story::reset() {
 }
 
 void Story::displayCurrentScene() {
-    auto it = scenes.find(currentSceneId);
     std::cout << "🪐 DEBUG: Attempting to display scene with ID: " << currentSceneId << "\n";
 
+    auto it = scenes.find(currentSceneId);
     if (it == scenes.end()) {
         std::cerr << "❌ displayCurrentScene: Scene not found: " << currentSceneId << "\n";
         return;
     }
 
-    Scene* scene = it->second;  // Assuming scene is a pointer to a Scene object
+    Scene* scene = it->second;  // Assuming this is a pointer
 
     if (scene->getType() == "battle") {
         std::cout << "⚔️ Battle begins with " << scene->getEnemyId() << "!\n";
-        startBattle(scene);  // Start the battle when the scene is a battle
-        return;  // Exit after starting the battle
+        startBattle(scene);  // Handles battle flow including moving to next scene
+        return;
     }
 
-    // Regular scene handling...
+    // Display scene description
+    std::cout << scene->getDescription() << "\n";
+
+    // Display choices
+    const auto& choices = scene->getChoices();
+    if (!choices.empty()) {
+        for (size_t i = 0; i < choices.size(); ++i) {
+            std::cout << i + 1 << ". " << choices[i].text << "\n";
+        }
+
+        int choice = getUserChoice(1, choices.size());  // 1-based indexing
+        const std::string& nextSceneId = choices[choice - 1].next;
+        transitionToNextScene(nextSceneId);  // Cleaner than recursive call to this function
+    } else {
+        std::cout << "🛑 The story has concluded." << std::endl;
+    }
 }
 
 void Story::startBattle(Scene* battleScene) {
